@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiceBot", "DiceBot\DiceBot.csproj", "{C54EF4EC-7358-4325-9D2D-D4B3A69C7B13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiceBot", "DiceBot\DiceBot.csproj", "{C54EF4EC-7358-4325-9D2D-D4B3A69C7B13}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiceBot.DiceNotation", "DiceBot.DiceNotation\DiceBot.DiceNotation.csproj", "{E9DC18D9-40D9-40EA-966E-5BDD3EB75989}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiceBot.DiceNotation.Tests", "DiceBot.DiceNotation.Tests\DiceBot.DiceNotation.Tests.csproj", "{EE41EF53-DF07-461D-BC70-FAA08169B3F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{C54EF4EC-7358-4325-9D2D-D4B3A69C7B13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C54EF4EC-7358-4325-9D2D-D4B3A69C7B13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C54EF4EC-7358-4325-9D2D-D4B3A69C7B13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9DC18D9-40D9-40EA-966E-5BDD3EB75989}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9DC18D9-40D9-40EA-966E-5BDD3EB75989}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9DC18D9-40D9-40EA-966E-5BDD3EB75989}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9DC18D9-40D9-40EA-966E-5BDD3EB75989}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE41EF53-DF07-461D-BC70-FAA08169B3F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE41EF53-DF07-461D-BC70-FAA08169B3F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE41EF53-DF07-461D-BC70-FAA08169B3F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE41EF53-DF07-461D-BC70-FAA08169B3F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,8 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-//
-// Generated with Bot Builder V4 SDK Template for Visual Studio EchoBot v4.5.0
-
+﻿using DiceBot.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -10,8 +6,6 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
-using DiceBot.Bots;
 
 namespace DiceBot
 {
@@ -31,9 +25,10 @@ namespace DiceBot
 
             // Create the Bot Framework Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
+            services.AddSingleton<IDiceRollingService, SimpleDiceRollingService>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            services.AddTransient<IBot, EchoBot>();
+            services.AddTransient<IBot, Bots.DiceBot>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
