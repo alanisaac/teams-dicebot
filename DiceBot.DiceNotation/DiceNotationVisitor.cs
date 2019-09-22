@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Antlr4.Runtime.Tree;
 
 namespace DiceBot.DiceNotation
@@ -82,30 +83,85 @@ namespace DiceBot.DiceNotation
             return value;
         }
 
-        //public int VisitMultOp(DiceNotationParser.MultOpContext context)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
+        public override int VisitMultOp(DiceNotationParser.MultOpContext context)
+        {
+            int index = 0;
+            var opContext = context.operand(index);
+            int value = 1;
+            bool multiply = true;
 
-        //public int VisitOperand(DiceNotationParser.OperandContext context)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
+            while (opContext != null)
+            {
+                if (multiply)
+                {
+                    value = value * Visit(opContext);
+                }
+                else
+                {
+                    value = value / Visit(opContext);
+                }
+                var opNode = context.MULTOPERATOR(index);
+                if (opNode != null)
+                {
+                    var opText = opNode.GetText();
+                    if (opText == "*")
+                    {
+                        multiply = true;
+                    }
+                    else if (opText == "/")
+                    {
+                        multiply = false;
+                    }
+                }
+                index++;
+                opContext = context.operand(index);
+            }
+
+            return value;
+        }
+
+        public override int VisitOperand(DiceNotationParser.OperandContext context)
+        {
+            var dice = context.dice();
+            var number = context.number();
+            var notation = context.notation();
+
+            if (dice != null)
+            {
+                return Visit(dice);
+            }
+
+            if (number != null)
+            {
+                return Visit(number);
+            }
+
+            if (notation != null)
+            {
+                return Visit(notation);
+            }
+
+            return 0;
+        }
 
         public override int VisitDice(DiceNotationParser.DiceContext context)
         {
-            var addOpNode = context.ADDOPERATOR();
-            var diceCountNode = context.DIGIT(0);
-            var diceSidesNode = context.DIGIT(1);
+            var firstDigitNode = context.DIGIT(0);
+            var secondDigitNode = context.DIGIT(1);
 
-            // if no count is specified, assume 1 dice.
-            int diceCount = 1;
-            if (diceCountNode != null)
+            int diceCount;
+            int diceSides;
+            if (secondDigitNode != null)
             {
-                diceCount = Visit(diceCountNode);
+                diceCount = Visit(firstDigitNode);
+                diceSides = Visit(secondDigitNode);
             }
-
-            var diceSides = Visit(diceSidesNode);
+            else
+            {
+                // if no count is specified, assume 1 dice.
+                diceCount = 1;
+                diceSides = Visit(firstDigitNode);
+            }
 
             int rollTotal = 0;
             for (int i = 0; i < diceCount; i++)

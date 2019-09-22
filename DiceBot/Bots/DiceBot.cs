@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using DiceBot.Services;
+using DiceBot.DiceNotation;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 
@@ -9,11 +9,11 @@ namespace DiceBot.Bots
 {
     public class DiceBot : ActivityHandler
     {
-        private readonly IDiceRollingService _diceRollingService;
+        private readonly IDiceRoller _diceRoller;
 
-        public DiceBot(IDiceRollingService diceRollingService)
+        public DiceBot(IDiceRoller diceRoller)
         {
-            _diceRollingService = diceRollingService;
+            _diceRoller = diceRoller;
         }
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
@@ -25,7 +25,7 @@ namespace DiceBot.Bots
             if (rollIndex >= 0)
             {
                 var expression = activity.Text.Substring(rollIndex, activity.Text.Length);
-                var diceRollResult = await _diceRollingService.Roll(expression);
+                var diceRollResult = await _diceRoller.Roll(expression);
                 var results = string.Join(' ', diceRollResult.DiceRolls);
                 await turnContext.SendActivityAsync(MessageFactory.Text($"I rolled: {results}.  Total: {diceRollResult.ExpressionTotal}"), cancellationToken);
             }

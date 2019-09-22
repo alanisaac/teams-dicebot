@@ -1,14 +1,13 @@
 ﻿using System.Threading.Tasks;
-using DiceBot.DiceNotation;
 using DiceBot.Models;
 
-namespace DiceBot.Services
+namespace DiceBot.DiceNotation
 {
-    public class DiceRollingService : IDiceRollingService
+    public class DiceRoller : IDiceRoller
     {
         private readonly IDiceRng _diceRng;
 
-        public DiceRollingService(IDiceRng diceRng)
+        public DiceRoller(IDiceRng diceRng)
         {
             _diceRng = diceRng;
         }
