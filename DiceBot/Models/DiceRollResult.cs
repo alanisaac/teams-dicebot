@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace DiceBot.Models
 {
     public class DiceRollResult
     {
-        public DiceRollResult(IEnumerable<int> diceRolls)
+        public DiceRollResult(IEnumerable<int> diceRolls, int expressionTotal)
         {
             DiceRolls = new List<int>(diceRolls).AsReadOnly();
+            ExpressionTotal = expressionTotal;
         }
 
         /// <summary>
@@ -16,8 +16,9 @@ namespace DiceBot.Models
         public IReadOnlyList<int> DiceRolls { get; }
 
         /// <summary>
-        /// The total value of all dice.
+        /// The total value of the dice expression.
+        /// If additional operators besides dice are used, this value will not be equal to the total of all dice rolls.
         /// </summary>
-        public int Total => DiceRolls.Sum();
+        public int ExpressionTotal { get; }
     }
 }

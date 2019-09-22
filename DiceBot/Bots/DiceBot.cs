@@ -1,13 +1,9 @@
 using System;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using DiceBot.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
-using OnePlat.DiceNotation;
-using OnePlat.DiceNotation.DieRoller;
 
 namespace DiceBot.Bots
 {
@@ -22,16 +18,16 @@ namespace DiceBot.Bots
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            var rollIndex = turnContext.Activity.Text.IndexOf("roll", StringComparison.OrdinalIgnoreCase);
-            var mentions = turnContext.Activity.GetMentions();
+            var activity = turnContext.Activity;
+            var rollIndex = activity.Text.IndexOf("roll", StringComparison.OrdinalIgnoreCase);
+            var mentions = activity.GetMentions();
             
             if (rollIndex >= 0)
             {
-                var 
-                var dice = new Dice();
-                var result = dice.Roll("3d6", _roller);
-                var results = string.Join(' ', result.Results.Select(x => x.Value));
-                await turnContext.SendActivityAsync(MessageFactory.Text($"I'm going to roll the dice! {results}"), cancellationToken);
+                var expression = activity.Text.Substring(rollIndex, activity.Text.Length);
+                var diceRollResult = await _diceRollingService.Roll(expression);
+                var results = string.Join(' ', diceRollResult.DiceRolls);
+                await turnContext.SendActivityAsync(MessageFactory.Text($"I rolled: {results}.  Total: {diceRollResult.ExpressionTotal}"), cancellationToken);
             }
         }
     }

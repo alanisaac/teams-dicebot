@@ -1,4 +1,6 @@
-﻿using DiceBot.Services;
+﻿using System;
+using DiceBot.DiceNotation;
+using DiceBot.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +27,8 @@ namespace DiceBot
 
             // Create the Bot Framework Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
-            services.AddSingleton<IDiceRollingService, SimpleDiceRollingService>();
+            services.AddSingleton<IDiceRollingService, DiceRollingService>();
+            services.AddSingleton<IDiceRng>(new RandomDiceRng(new Random()));
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
             services.AddTransient<IBot, Bots.DiceBot>();
